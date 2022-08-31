@@ -1,7 +1,7 @@
-﻿using Puppies.Dal.Interface.RepoInterface.Base;
-using Puppies.Model.Base;
+﻿using Puppies.Model.Base;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Puppies.Dal.RepoInterface.Base;
 
 namespace Puppies.Dal.Repos.DapperRepo.Base
 {

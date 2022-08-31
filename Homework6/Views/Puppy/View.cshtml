@@ -8,6 +8,10 @@
 
 <form method="post" asp-action="View" class="mt-5">
     <div class="mb-3">
+        <label asp-for="Id" class="form-label"></label>
+        <input type="text" class="form-control" asp-for="Id" readonly>
+    </div>
+    <div class="mb-3">
         <label asp-for="Name" class="form-label"></label>
         <input type="text" class="form-control" asp-for="Name">
         <span asp-validation-for="Name" class="text-danger"></span>
@@ -20,7 +24,7 @@
     </div>
     <div class="mb-3">
         <label asp-for="Age" class="form-label"></label>
-        <input type="text" class="form-control" asp-for="Name">
+        <input type="text" class="form-control" asp-for="Age">
         <span asp-validation-for="Age" class="text-danger"></span>
     </div>
     <div class="mb-3">
@@ -41,7 +45,7 @@
     </div>
      <div class="form-group m-2">
         <label asp-for="Breed.Name" class="col-form-label"></label>
-        <select asp-for="Breed.Id" class="form-control" asp-items="ViewBag.Breeds"></select>
+        <select asp-for="BreedId" class="form-control" asp-items="ViewBag.Breeds"></select>
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>

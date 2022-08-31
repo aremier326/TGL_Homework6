@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Puppies.Dal.Interface.RepoInterface.Base
+namespace Puppies.Dal.RepoInterface.Base
 {
     public interface IRepoBase<T>
     {

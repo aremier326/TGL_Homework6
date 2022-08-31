@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
-using Puppies.Dal.Interface.RepoInterface;
-using Puppies.Dal.Interface.RepoInterface.Base;
+using Puppies.Dal.RepoInterface.Base;
+using Puppies.Dal.RepoInterface;
 using Puppies.Dal.Repos.DapperRepo.Base;
 using Puppies.Model;
 
@@ -15,7 +15,7 @@ namespace Puppies.Dal.Repos.DapperRepo
 
         public override async Task<int> AddAsync(Breed entity)
         {
-            var sql = @"INSERT INTO Breed (Name)
+            var sql = @"INSERT INTO [dbo].[Breeds] (Name)
                         VALUES (@Name)";
 
             using (var connection = new SqlConnection(ConnectionString))
@@ -28,7 +28,7 @@ namespace Puppies.Dal.Repos.DapperRepo
 
         public override async Task<Breed> FindAsync(int? id)
         {
-            var sql = @"SELECT * FROM Breed
+            var sql = @"SELECT * FROM [dbo].[Breeds]
                         WHERE Id = @Id";
 
             using (var connection = new SqlConnection(ConnectionString))
@@ -41,7 +41,7 @@ namespace Puppies.Dal.Repos.DapperRepo
 
         public override async Task<IEnumerable<Breed>> GetAllAsync()
         {
-            var sql = @"SELECT * FROM Breed";
+            var sql = @"SELECT * FROM [dbo].[Breeds]";
 
             using (var connection = new SqlConnection(ConnectionString))
             {
@@ -53,7 +53,7 @@ namespace Puppies.Dal.Repos.DapperRepo
 
         public override async Task<int> RemoveAsync(Breed entity)
         {
-            var sql = @"DELETE FROM Breed WHERE Id = @Id";
+            var sql = @"DELETE FROM [dbo].[Breeds] WHERE Id = @Id";
 
             using (var connection = new SqlConnection(ConnectionString))
             {
@@ -65,7 +65,7 @@ namespace Puppies.Dal.Repos.DapperRepo
 
         public override async Task<int> UpdateAsync(Breed entity)
         {
-            var sql = @"UPDATE Breed SET
+            var sql = @"UPDATE [dbo].[Breeds] SET
                         Name = @Name,
                         WHERE Id = @Id";
 

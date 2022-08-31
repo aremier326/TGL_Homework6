@@ -1,7 +1,7 @@
-﻿using Puppies.Dal.Interface.RepoInterface.Base;
+﻿using Puppies.Dal.RepoInterface.Base;
 using Puppies.Model;
 
-namespace Puppies.Dal.Interface.RepoInterface
+namespace Puppies.Dal.RepoInterface
 {
     public interface IPuppyRepo : IRepoBase<Puppy>
     {

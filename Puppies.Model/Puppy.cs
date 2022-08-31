@@ -1,10 +1,6 @@
 ﻿using Puppies.Model.Base;
 using Puppies.Model.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Puppies.Model
 {
@@ -16,9 +12,9 @@ namespace Puppies.Model
 
         public int Age { get; set; }
 
-        public int Weight { get; set; }
+        public double Weight { get; set; }
 
-        public int Height { get; set; }
+        public double Height { get; set; }
 
         public FurColorEnum FurColor { get; set; }
 

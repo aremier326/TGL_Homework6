@@ -1,5 +1,4 @@
-﻿using Homework4.Data;
-using Homework6.Services.Interface;
+﻿using Homework6.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,57 +8,52 @@ namespace Homework4.Controllers
 {
     public class PuppyController : Controller
     {
-        //private readonly PizzaDeliveryDbContext _pizzaDeliveryDbContext;
+        private IPuppyService PuppyService { get; }
+        private IBreedService BreedService { get; }
 
-        //public PuppyController(PizzaDeliveryDbContext pizzaDeliveryDbContext)
-        //{
-        //    _pizzaDeliveryDbContext = pizzaDeliveryDbContext;
-        //}
+        public PuppyController(IPuppyService puppyService, IBreedService breedService)
+        {
+            PuppyService = puppyService;
+            BreedService = breedService;
+        }
 
-        internal async Task<SelectList> GetBreadSelectList()
+        internal async Task<SelectList> GetBreedSelectList()
         {
             return new SelectList(await BreedService.GetAllAsync(), nameof(Breed.Id), nameof(Breed.Name));
         }
 
-        private IPuppyService PuppyService { get; }
-        private IBreedService BreedService { get; }
-
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+
             var puppies = await PuppyService.GetAllAsync();
             return View(puppies);
+
         }
 
 
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            ViewBag.Breeds = await GetBreadSelectList();
+            ViewBag.Breeds = await GetBreedSelectList();
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(Puppy addPuppyRequest)
-        {
-            //var puppy = new Puppy()
-            //{
-            //    Name = addPuppyRequest.Name,
-            //    Gender = addPuppyRequest.Gender,
-            //    Age = addPuppyRequest.Age,
-            //    Weight = addPuppyRequest.Weight,
-            //    Height = addPuppyRequest.Height,
-            //    FurColor = addPuppyRequest.FurColor,
-            //    BreedId = addPuppyRequest.Breed.Id
-            //};
+        {   
+            ModelState.Remove("Breed");
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                await PuppyService.AddAsync(addPuppyRequest);
-                return RedirectToAction("Index");
+                ViewBag.Breeds = await GetBreedSelectList();
+                return View();
             }
-            ViewBag.Breeds = await GetBreadSelectList();
-            return View();
+
+            addPuppyRequest.Breed = await BreedService.FindAsync(addPuppyRequest.BreedId);
+
+            await PuppyService.AddAsync(addPuppyRequest);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -69,20 +63,21 @@ namespace Homework4.Controllers
 
             if (puppy == null) return RedirectToAction("Index");
 
-            ViewBag.Breeds = await GetBreadSelectList();
+            ViewBag.Breeds = await GetBreedSelectList();
             return await Task.Run(() => View("View", puppy));
         }
 
         [HttpPost]
         public async Task<ActionResult> View(Puppy editedPuppy)
         {
-            var puppy = await PuppyService.FindAsync(editedPuppy.Id);
+            if (await PuppyService.FindAsync(editedPuppy.Id) == null) return RedirectToAction("Index");
 
-            if (puppy == null) return RedirectToAction("Index");
+            ModelState.Remove("Breed");
 
             if (ModelState.IsValid)
             {
-                await PuppyService.UpdateAsync(puppy);
+                editedPuppy.Breed = await BreedService.FindAsync(editedPuppy.BreedId);
+                await PuppyService.UpdateAsync(editedPuppy);
                 return RedirectToAction("Index");
             }
             return View();

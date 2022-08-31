@@ -1,6 +1,6 @@
 ﻿using Homework6.Services.Base;
 using Homework6.Services.Interface;
-using Puppies.Dal.Interface.RepoInterface;
+using Puppies.Dal.RepoInterface;
 using Puppies.Model;
 
 namespace Homework6.Services
